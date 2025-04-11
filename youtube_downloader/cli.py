@@ -7,7 +7,7 @@ from .downloader import download_video
 def main():
     parser = argparse.ArgumentParser(description="Download YouTube videos with best quality")
     parser.add_argument("url", help="YouTube video URL to download")
-    parser.add_argument("-o", "--output", help="Output directory (default: current directory)", default=None)
+    parser.add_argument("-o", "--output", help="Output file path (default: auto-generated from video title)", default=None)
     args = parser.parse_args()
 
     success = download_video(args.url, args.output)
