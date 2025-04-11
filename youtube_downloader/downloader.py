@@ -32,7 +32,7 @@ def cleanup_part_files(directory="."):
         except Exception as e:
             print(f"Could not remove {part_file}: {e}")
 
-def download_video(url, cookies_file=None, output=None, audio_only=False, browser="none"):
+def download_video(url, cookies_file=None, output=None, audio_only=False):
     """
     Download a video from YouTube with given parameters.
     
@@ -41,7 +41,6 @@ def download_video(url, cookies_file=None, output=None, audio_only=False, browse
         cookies_file (str, optional): Path to a Netscape format cookies.txt file
         output (str, optional): Output file path template
         audio_only (bool, optional): Extract audio as MP3
-        browser (str, optional): Browser to extract cookies from as fallback
     
     Returns:
         bool: True if download was successful, False otherwise
@@ -72,10 +71,6 @@ def download_video(url, cookies_file=None, output=None, audio_only=False, browse
             ydl_opts['cookiefile'] = cookies_file
         else:
             print(f"Warning: Cookies file not found: {cookies_file}")
-    
-    # Configure browser cookies if specified and not 'none'
-    if browser and browser.lower() != "none":
-        ydl_opts['cookiesfrombrowser'] = (browser, None, None, None)
     
     # Configure audio extraction if requested
     if audio_only:
