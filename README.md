@@ -6,6 +6,7 @@ A robust command-line tool for downloading YouTube videos with the best possible
 
 - Downloads YouTube videos with the best available quality
 - Supports specifying a custom output file path
+- **Extracts audio tracks as MP3 files** (optional)
 - Automatically cleans up partial downloads
 - Implements progressive fallback to ensure successful downloads
 - Sanitizes filenames to avoid special character issues
@@ -14,7 +15,7 @@ A robust command-line tool for downloading YouTube videos with the best possible
 ## Requirements
 
 - Python 3.9 or higher
-- FFmpeg (for video/audio merging)
+- FFmpeg (for video/audio merging and MP3 extraction)
 - aria2 (optional, for faster downloads)
 
 ## Installation
@@ -86,6 +87,22 @@ or
 ```bash
 youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX -o /path/to/downloads/downloaded_video.mp4
 ```
+
+### Extract Audio Track as MP3
+
+```bash
+youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX -a
+```
+
+This will download the video and also create an MP3 file with the same name.
+
+You can combine with the output option:
+
+```bash
+youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX -o music_video.mp4 -a
+```
+
+This will create both `music_video.mp4` and `music_video.mp3`.
 
 ## Troubleshooting
 
