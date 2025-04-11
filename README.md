@@ -1,5 +1,9 @@
 # 🎬 youtube-downloader
 
+<p align="center">
+  <img src="logo.jpg" alt="PDF Unlocker Logo" width="400"/>
+</p>
+
 🎯 A simple CLI tool to download YouTube videos and extract audio tracks.
 
 ## 📖 Overview
