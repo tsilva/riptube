@@ -5,6 +5,7 @@ import sys
 import glob
 import shutil
 import platform
+import subprocess
 import yt_dlp
 
 def sanitize_filename(filename):
@@ -73,7 +74,8 @@ def download_video(url, output_path=None):
     
     Args:
         url: URL of the YouTube video
-        output_path: Optional path to save the video. Uses current directory if not specified.
+        output_path: Optional path for the output file. If not specified, 
+                    filename will be auto-generated from video title.
     """
     try:
         # Check Python version
@@ -82,14 +84,25 @@ def download_video(url, output_path=None):
         # Check dependencies
         has_dependencies = check_dependencies()
         
-        if not output_path:
-            output_path = os.getcwd()
+        # Determine output directory and filename
+        if output_path:
+            output_dir = os.path.dirname(output_path)
+            output_filename = os.path.basename(output_path)
+            if not output_dir:  # If only filename was provided
+                output_dir = os.getcwd()
+                output_path = os.path.join(output_dir, output_filename)
+        else:
+            output_dir = os.getcwd()
+            output_filename = None  # Will be determined from video title
+        
+        # Create output directory if it doesn't exist
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir)
         
         # Create options with pre-configured PO tokens
         ydl_opts = {
             'format': 'bestvideo[height<=1080]+bestaudio/best[height<=1080]',
             'merge_output_format': 'mp4',
-            'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
             'quiet': False,
             'no_warnings': False,
             'ignoreerrors': True,
@@ -119,7 +132,7 @@ def download_video(url, output_path=None):
             })
         
         # Clean up any leftover .part files before starting
-        cleanup_part_files(output_path)
+        cleanup_part_files(output_dir)
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             # First extract info without downloading
@@ -127,21 +140,38 @@ def download_video(url, output_path=None):
             if not info:
                 raise Exception("Could not retrieve video information")
                 
-            title = info.get('title', 'Video')
-            sanitized_title = sanitize_filename(title)
+            video_title = info.get('title', 'Video')
             
-            # Update the output template with sanitized filename
-            ydl_opts['outtmpl'] = os.path.join(output_path, sanitized_title + '.%(ext)s')
+            # If custom output path is specified, use it; otherwise, use sanitized title
+            if output_filename:
+                # Force mp4 extension if not specified
+                if not os.path.splitext(output_filename)[1]:
+                    output_filename += '.mp4'
+                ydl_opts['outtmpl'] = output_path
+            else:
+                sanitized_title = sanitize_filename(video_title)
+                ydl_opts['outtmpl'] = os.path.join(output_dir, sanitized_title + '.%(ext)s')
             
             # Download the video
-            print(f"Downloading: {title}")
+            print(f"Downloading: {video_title}")
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([url])
             
-            print(f"Downloaded: {title} successfully!")
+            # Get the actual filename that was downloaded
+            if output_filename:
+                downloaded_file = output_path
+            else:
+                # Find the newest mp4 file in the directory that matches our sanitized title
+                mp4_files = glob.glob(os.path.join(output_dir, sanitized_title + ".mp4"))
+                if mp4_files:
+                    downloaded_file = mp4_files[0]
+                else:
+                    downloaded_file = "unknown"
+            
+            print(f"Downloaded: {video_title} successfully to {os.path.basename(downloaded_file)}!")
             
             # Clean up any leftover .part files after download
-            cleanup_part_files(output_path)
+            cleanup_part_files(output_dir)
             return True
     except yt_dlp.utils.DownloadError as e:
         print(f"Download Error: {str(e)}")
@@ -151,10 +181,10 @@ def download_video(url, output_path=None):
             ydl_opts['format'] = 'best[ext=mp4]/best'
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([url])
-            print(f"Downloaded with alternate format: {title} successfully!")
+            print(f"Downloaded with alternate format: {video_title} successfully!")
             
             # Clean up any leftover .part files after download
-            cleanup_part_files(output_path)
+            cleanup_part_files(output_dir)
             return True
         except Exception as e2:
             print(f"Second attempt failed: {str(e2)}")
@@ -170,19 +200,19 @@ def download_video(url, output_path=None):
                 print("Downloaded with best available format!")
                 
                 # Clean up any leftover .part files after download
-                cleanup_part_files(output_path)
+                cleanup_part_files(output_dir)
                 return True
             except Exception as e3:
                 print(f"Final attempt failed: {str(e3)}")
                 
                 # Clean up any leftover .part files after failed download
-                cleanup_part_files(output_path)
+                cleanup_part_files(output_dir)
                 return False
     except Exception as e:
         print(f"Error: {str(e)}")
         # Clean up any leftover .part files after exception
-        cleanup_part_files(output_path)
+        cleanup_part_files(output_dir if output_dir else os.getcwd())
         return False
     finally:
         # Always make sure to clean up part files, even if an unhandled exception occurs
-        cleanup_part_files(output_path)
+        cleanup_part_files(output_dir if output_dir else os.getcwd())

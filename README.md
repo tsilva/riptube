@@ -1,55 +1,107 @@
-# 🎬 YouTube Downloader
+# YouTube Downloader
 
-🔽 A simple CLI tool to download YouTube videos with the best available quality
+A robust command-line tool for downloading YouTube videos with the best possible quality.
 
-## 📖 Overview
+## Features
 
-YouTube Downloader is a command-line utility that lets you download YouTube videos in the highest quality available. Built on top of yt-dlp, it handles format selection, filename sanitization, and dependency management automatically. The tool includes fallback mechanisms to ensure successful downloads even when the best quality isn't available.
+- Downloads YouTube videos with the best available quality
+- Supports specifying a custom output file path
+- Automatically cleans up partial downloads
+- Implements progressive fallback to ensure successful downloads
+- Sanitizes filenames to avoid special character issues
+- Provides informative error messages and dependency checks
 
-## 🚀 Installation
+## Requirements
 
-Install the tool using pipx:
+- Python 3.9 or higher
+- FFmpeg (for video/audio merging)
+- aria2 (optional, for faster downloads)
 
-```bash
-pipx install . --force
-```
+## Installation
 
-## 🛠️ Usage
+### Using pipx (recommended)
 
-After installation, download videos with a simple command:
-
-```bash
-youtube-downloader <video-url>
-```
-
-This downloads the video to your current directory with the best resolution and encoding available.
-
-### Options
+The recommended way to install YouTube Downloader is with [pipx](https://pypa.github.io/pipx/):
 
 ```bash
-youtube-downloader https://www.youtube.com/watch?v=dQw4w9WgXcQ -o ~/Videos
+# Install pipx if you don't have it
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+
+# Install YouTube Downloader
+pipx install git+https://github.com/tsilva/youtube-downloader.git
 ```
 
-Available options:
-- `-o, --output`: Specify the output directory (default: current directory)
+### Using pip
 
-## ✨ Features
+```bash
+pip install git+https://github.com/tsilva/youtube-downloader.git
+```
 
-- Downloads videos in best quality (up to 1080p)
-- Sanitizes filenames automatically
-- Uses aria2 for faster downloads on Linux/macOS
-- Handles browser cookies for access to restricted videos
-- Includes multiple fallback strategies for reliable downloads
-- Cleans up partial downloads automatically
+### From Source
 
-## 🧰 Requirements
+```bash
+git clone https://github.com/tsilva/youtube-downloader.git
+cd youtube-downloader
+pip install -e .
+```
 
-- Python 3.8+ (3.9+ recommended)
-- FFmpeg
-- aria2 (recommended on Linux/macOS)
+## Installing Dependencies
 
-## 📄 License
+### Linux
 
-This project is licensed under the [MIT License](LICENSE).
+```bash
+sudo apt update
+sudo apt install ffmpeg aria2
+```
 
-AI: I've created a clean, modern README for your YouTube Downloader project. The README highlights the key features and functionality while providing clear installation and usage instructions. I've organized it with emojis for better readability and included all the essential information a user would need to get started with your tool.
+### macOS
+
+```bash
+brew install ffmpeg aria2
+```
+
+### Windows
+
+Download and install FFmpeg from: https://ffmpeg.org/download.html
+
+## Usage
+
+### Basic Usage
+
+```bash
+youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX
+```
+
+This will download the video to the current directory with a filename based on the video title.
+
+### Specify Output File
+
+```bash
+youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX -o downloaded_video.mp4
+```
+
+or
+
+```bash
+youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX -o /path/to/downloads/downloaded_video.mp4
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **403 Forbidden Errors**: These can happen due to YouTube's anti-bot protections. The program will automatically try alternative download strategies.
+
+2. **Merge Errors**: If you see errors related to merging video and audio, make sure FFmpeg is properly installed and available in your PATH.
+
+3. **Missing Dependencies**: The tool will notify you if FFmpeg or aria2 are missing and provide installation instructions.
+
+## License
+
+[MIT](LICENSE)
+
+## Acknowledgments
+
+- This tool uses [yt-dlp](https://github.com/yt-dlp/yt-dlp), a powerful YouTube download library
+- Inspired by the need for a reliable YouTube downloading solution
