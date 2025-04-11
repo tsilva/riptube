@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "youtube-downloader"
+version = "0.1.0"
+description = "YouTube video downloader with best quality"
+authors = [
+    {name = "tsilva", email = "tsilva@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "yt-dlp>=2023.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/tsilva/youtube-downloader"
+"Bug Tracker" = "https://github.com/tsilva/youtube-downloader/issues"
+
+[project.scripts]
+youtube-downloader = "youtube_downloader.cli:main"
+
+[tool.setuptools]
+packages = ["youtube_downloader"]
+
+[tool.pipx]
+install-deps = true
+python-version = ">=3.9"
+external-dependencies = {ffmpeg = "ffmpeg -version"}
+venv-provision-command = """
+pip install --upgrade pip
+python -c "import platform; import sys; exit('Not on Linux' != 'Linux' and 0 or 1)" || pip install aria2
+"""
