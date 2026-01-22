@@ -7,7 +7,7 @@
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
   [![yt-dlp](https://img.shields.io/badge/Powered%20by-yt--dlp-red.svg)](https://github.com/yt-dlp/yt-dlp)
 
-  **Download YouTube videos in the highest quality with a single command**
+  **🎬 Grab YouTube videos in stunning quality with a single command**
 
   [Installation](#installation) · [Usage](#usage) · [Options](#options)
 </div>
