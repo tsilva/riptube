@@ -1,74 +1,100 @@
-# 🎬 youtube-downloader
+<div align="center">
+  <img src="logo.png" alt="youtube-downloader" width="512"/>
 
-<p align="center">
-  <img src="logo.jpg" alt="PDF Unlocker Logo" width="400"/>
-</p>
+  # youtube-downloader
 
-🎯 A simple CLI tool to download YouTube videos and extract audio tracks.
+  [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+  [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+  [![yt-dlp](https://img.shields.io/badge/Powered%20by-yt--dlp-red.svg)](https://github.com/yt-dlp/yt-dlp)
 
-## 📖 Overview
+  **Download YouTube videos in the highest quality with a single command**
 
-YouTube Downloader is a command-line utility that lets you download videos from YouTube with the highest available quality. It handles the complexities of video downloading with features like audio extraction, custom output paths, and automatic fallback strategies to ensure successful downloads even when facing anti-bot protections.
+  [Installation](#installation) · [Usage](#usage) · [Options](#options)
+</div>
 
-Built on top of yt-dlp, this tool provides a simplified interface while maintaining powerful functionality for both casual users and power users.
+## Overview
 
-## 🚀 Installation
+A CLI tool for downloading YouTube videos and extracting audio tracks. Built on top of yt-dlp, it handles the complexities of video downloading with automatic format selection, audio extraction, and cookie support for restricted content.
+
+## Features
+
+- **Best quality by default** - Automatically selects the highest available video and audio quality
+- **Audio extraction** - Extract audio tracks as MP3 files with a single flag
+- **Cookie support** - Access age-restricted or private videos using browser cookies
+- **Clean filenames** - Automatic sanitization of video titles for safe file names
+
+## Installation
 
 ```bash
-pipx install . --force
+pipx install git+https://github.com/tsilva/youtube-downloader.git
 ```
 
-Dependencies:
-- FFmpeg (required for video/audio processing)
-- aria2 (optional, for faster downloads)
+### Dependencies
 
-### Installing Dependencies
-
-**Linux:**
-```bash
-sudo apt update && sudo apt install ffmpeg aria2
-```
+| Dependency | Required | Purpose |
+|------------|----------|---------|
+| FFmpeg | Yes | Video/audio processing and merging |
+| aria2 | No | Faster downloads (optional) |
 
 **macOS:**
 ```bash
 brew install ffmpeg aria2
 ```
 
+**Linux:**
+```bash
+sudo apt install ffmpeg aria2
+```
+
 **Windows:**
-Download FFmpeg from: https://ffmpeg.org/download.html
+Download FFmpeg from [ffmpeg.org](https://ffmpeg.org/download.html)
 
-## 🛠️ Usage
+## Usage
 
-### Basic Download
-
-```bash
-youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX
-```
-
-### Specify Output File
+### Download a video
 
 ```bash
-youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX -o downloaded_video.mp4
+youtube-downloader https://www.youtube.com/watch?v=dQw4w9WgXcQ
 ```
 
-### Extract Audio as MP3
+### Specify output file
 
 ```bash
-youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX -a
+youtube-downloader https://www.youtube.com/watch?v=dQw4w9WgXcQ -o video.mp4
 ```
 
-### Using Browser Cookies (for restricted videos)
+### Extract audio only
 
 ```bash
-youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX -b chrome
+youtube-downloader https://www.youtube.com/watch?v=dQw4w9WgXcQ -a
 ```
 
-### Combine Options
+### Use cookies for restricted videos
 
 ```bash
-youtube-downloader https://www.youtube.com/watch?v=XXXXXXXXXXX -o music_video.mp4 -a -b firefox
+youtube-downloader https://www.youtube.com/watch?v=dQw4w9WgXcQ -c cookies.txt
 ```
 
-## 📄 License
+## Options
+
+| Option | Description |
+|--------|-------------|
+| `-o, --output` | Output file path (default: auto-generated from video title) |
+| `-a, --audio` | Extract audio track as MP3 |
+| `-c, --cookies` | Path to Netscape format cookies.txt file |
+
+## Development
+
+```bash
+# Clone and install in development mode
+git clone https://github.com/tsilva/youtube-downloader.git
+cd youtube-downloader
+pipx install . --force
+
+# Run directly without installing
+python -m youtube_downloader.cli <url>
+```
+
+## License
 
 [MIT](LICENSE)
