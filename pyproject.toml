@@ -42,3 +42,9 @@ venv-provision-command = """
 pip install --upgrade pip
 python -c "import platform; import sys; exit('Not on Linux' != 'Linux' and 0 or 1)" || pip install aria2
 """
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

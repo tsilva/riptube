@@ -14,6 +14,8 @@
 
 ## Overview
 
+[![CI](https://github.com/tsilva/youtube-downloader/actions/workflows/release.yml/badge.svg)](https://github.com/tsilva/youtube-downloader/actions/workflows/release.yml)
+
 A CLI tool for downloading YouTube videos and extracting audio tracks. Built on top of yt-dlp, it handles the complexities of video downloading with automatic format selection, audio extraction, and cookie support for restricted content.
 
 ## Features
