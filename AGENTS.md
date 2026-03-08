@@ -15,12 +15,12 @@ pipx install . --force
 
 ### Run directly (development)
 ```bash
-python -m youtube_downloader.cli <url>
+python -m youdown.cli <url>
 ```
 
 ### After installation
 ```bash
-youtube-downloader <url> [-o output.mp4] [-a] [-c cookies.txt]
+youdown <url> [-o output.mp4] [-a] [-c cookies.txt]
 ```
 
 ## Architecture

@@ -3,11 +3,11 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "youtube-downloader"
+name = "youdown"
 version = "0.1.0"
 description = "YouTube video downloader with best quality"
 authors = [
-    {name = "tsilva", email = "tsilva@example.com"}
+    {name = "tsilva"c}
 ]
 readme = "README.md"
 requires-python = ">=3.8"
@@ -25,14 +25,14 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/tsilva/youtube-downloader"
-"Bug Tracker" = "https://github.com/tsilva/youtube-downloader/issues"
+"Homepage" = "https://github.com/tsilva/youdown"
+"Bug Tracker" = "https://github.com/tsilva/youdown/issues"
 
 [project.scripts]
-youtube-downloader = "youtube_downloader.cli:main"
+youdown = "youdown.cli:main"
 
 [tool.setuptools]
-packages = ["youtube_downloader"]
+packages = ["youdown"]
 
 [tool.pipx]
 install-deps = true

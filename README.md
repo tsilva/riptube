@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="logo.png" alt="youtube-downloader" width="512"/>
+  <img src="logo.png" alt="youdown" width="512"/>
 
-  # youtube-downloader
+  # youdown
 
   [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -14,7 +14,7 @@
 
 ## Overview
 
-[![CI](https://github.com/tsilva/youtube-downloader/actions/workflows/release.yml/badge.svg)](https://github.com/tsilva/youtube-downloader/actions/workflows/release.yml)
+[![CI](https://github.com/tsilva/youdown/actions/workflows/release.yml/badge.svg)](https://github.com/tsilva/youdown/actions/workflows/release.yml)
 
 A CLI tool for downloading YouTube videos and extracting audio tracks. Built on top of yt-dlp, it handles the complexities of video downloading with automatic format selection, audio extraction, and cookie support for restricted content.
 
@@ -28,7 +28,7 @@ A CLI tool for downloading YouTube videos and extracting audio tracks. Built on 
 ## Installation
 
 ```bash
-pipx install git+https://github.com/tsilva/youtube-downloader.git
+pipx install git+https://github.com/tsilva/youdown.git
 ```
 
 ### Dependencies
@@ -56,25 +56,25 @@ Download FFmpeg from [ffmpeg.org](https://ffmpeg.org/download.html)
 ### Download a video
 
 ```bash
-youtube-downloader https://www.youtube.com/watch?v=dQw4w9WgXcQ
+youdown https://www.youtube.com/watch?v=dQw4w9WgXcQ
 ```
 
 ### Specify output file
 
 ```bash
-youtube-downloader https://www.youtube.com/watch?v=dQw4w9WgXcQ -o video.mp4
+youdown https://www.youtube.com/watch?v=dQw4w9WgXcQ -o video.mp4
 ```
 
 ### Extract audio only
 
 ```bash
-youtube-downloader https://www.youtube.com/watch?v=dQw4w9WgXcQ -a
+youdown https://www.youtube.com/watch?v=dQw4w9WgXcQ -a
 ```
 
 ### Use cookies for restricted videos
 
 ```bash
-youtube-downloader https://www.youtube.com/watch?v=dQw4w9WgXcQ -c cookies.txt
+youdown https://www.youtube.com/watch?v=dQw4w9WgXcQ -c cookies.txt
 ```
 
 ## Options
@@ -89,12 +89,12 @@ youtube-downloader https://www.youtube.com/watch?v=dQw4w9WgXcQ -c cookies.txt
 
 ```bash
 # Clone and install in development mode
-git clone https://github.com/tsilva/youtube-downloader.git
-cd youtube-downloader
+git clone https://github.com/tsilva/youdown.git
+cd youdown
 pipx install . --force
 
 # Run directly without installing
-python -m youtube_downloader.cli <url>
+python -m youdown.cli <url>
 ```
 
 ## License
