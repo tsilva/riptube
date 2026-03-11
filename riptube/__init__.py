@@ -8,4 +8,4 @@ try:
     __version__ = version("riptube")
 except PackageNotFoundError:
     # Fallback for local execution before the distribution is installed.
-    __version__ = "0.1.0"
+    __version__ = "0.1.1"
