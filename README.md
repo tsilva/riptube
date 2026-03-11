@@ -124,7 +124,15 @@ python -m riptube.cli <url>
 
 ## Releases
 
-Bumping the version in `pyproject.toml` on `main` triggers the release workflow, which builds the package, publishes it to PyPI, and then creates the matching GitHub release. The workflow can also be re-run manually from GitHub via `workflow_dispatch`.
+Use the Make targets to cut a release from a clean `main` branch:
+
+```bash
+make release-patch
+make release-minor
+make release-major
+```
+
+Each target bumps the version, refreshes `uv.lock`, commits the release change, and pushes to `main`. That push triggers the release workflow, which builds the package, publishes it to PyPI, and then creates the matching GitHub release. The workflow can also be re-run manually from GitHub via `workflow_dispatch`.
 
 ## License
 
