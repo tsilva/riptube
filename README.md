@@ -28,8 +28,16 @@ A CLI tool for downloading YouTube videos and extracting audio tracks. Built on 
 ## Installation
 
 ```bash
-pipx install git+https://github.com/tsilva/youdown.git
+pipx install youdown-cli
 ```
+
+### Development install with uv
+
+```bash
+uv tool install . --editable
+```
+
+The package is published on PyPI as `youdown-cli`, but the installed command is still `youdown`.
 
 ### Dependencies
 
@@ -91,6 +99,9 @@ youdown https://www.youtube.com/watch?v=dQw4w9WgXcQ -c cookies.txt
 # Clone and install in development mode
 git clone https://github.com/tsilva/youdown.git
 cd youdown
+uv tool install . --editable
+
+# Or install with pipx
 pipx install . --force
 
 # Run directly without installing
