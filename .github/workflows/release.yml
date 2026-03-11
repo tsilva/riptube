@@ -25,6 +25,8 @@ jobs:
         run: uvx ruff check .
       - name: Compile package
         run: uv run python -m compileall riptube
+      - name: Smoke test import
+        run: uv run python -c "import riptube; from riptube import download_video; assert riptube.__version__; assert callable(download_video)"
       - name: Smoke test CLI
         run: uv run python -m riptube.cli --help
 
