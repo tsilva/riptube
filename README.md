@@ -39,6 +39,20 @@ uv tool install . --editable
 
 The package is published on PyPI as `riptube`, and the installed command is `riptube`.
 
+If you want to use it as a Python package instead of the CLI:
+
+```bash
+pip install riptube
+```
+
+```python
+import riptube
+from riptube import download_video
+
+print(riptube.__version__)
+download_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+```
+
 ### Dependencies
 
 | Dependency | Required | Purpose |
