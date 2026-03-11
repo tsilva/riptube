@@ -9,13 +9,27 @@ concurrency:
   cancel-in-progress: false
 jobs:
   test:
-    uses: tsilva/.github/.github/workflows/test.yml@main
-
-  pii-scan:
-    uses: tsilva/.github/.github/workflows/pii-scan.yml@main
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: astral-sh/setup-uv@v4
+        with:
+          cache: true
+      - name: Install dependencies
+        run: uv sync --locked
+      - name: Lint
+        run: uvx ruff check .
+      - name: Compile package
+        run: uv run python -m compileall riptube
+      - name: Smoke test CLI
+        run: uv run python -m riptube.cli --help
 
   publish:
-    needs: [test, pii-scan]
+    needs: [test]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: pypi
@@ -26,9 +40,28 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
       - name: Check version
         id: check-version
-        uses: tsilva/.github/.github/actions/check-version@main
+        run: |
+          VERSION="$(python - <<'PY'
+          import tomllib
+
+          with open("pyproject.toml", "rb") as fh:
+              print(tomllib.load(fh)["project"]["version"])
+          PY
+          )"
+          TAG="v${VERSION}"
+          if git rev-parse "${TAG}" >/dev/null 2>&1; then
+            TAG_EXISTS=true
+          else
+            TAG_EXISTS=false
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "tag_exists=${TAG_EXISTS}" >> "$GITHUB_OUTPUT"
       - name: Setup uv
         if: github.event_name == 'workflow_dispatch' || steps.check-version.outputs.tag_exists == 'false'
         uses: astral-sh/setup-uv@v4

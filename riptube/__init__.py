@@ -1,3 +1,3 @@
-from .downloader import download_video
+from .downloader import download_video as download_video
 
-__version__ = '0.1.0'
+__version__ = "0.1.0"

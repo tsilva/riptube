@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
+import glob
 import os
 import re
-import sys
-import glob
 import shutil
+import sys
+
 import yt_dlp
+
 
 def sanitize_filename(filename):
     """Sanitize filename to remove special characters that might cause issues."""

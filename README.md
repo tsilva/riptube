@@ -28,7 +28,7 @@ A CLI tool for downloading YouTube videos and extracting audio tracks. Built on 
 ## Installation
 
 ```bash
-pipx install riptube-cli
+pipx install riptube
 ```
 
 ### Development install with uv
@@ -37,7 +37,7 @@ pipx install riptube-cli
 uv tool install . --editable
 ```
 
-The package is published on PyPI as `riptube-cli`, but the installed command is still `riptube`.
+The package is published on PyPI as `riptube`, and the installed command is `riptube`.
 
 ### Dependencies
 
