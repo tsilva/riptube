@@ -399,7 +399,7 @@ wheels = [
 ]
 
 [[package]]
-name = "riptube-cli"
+name = "riptube"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
