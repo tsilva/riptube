@@ -3,6 +3,7 @@ on:
   push:
     branches: [main]
     paths: [pyproject.toml]
+  workflow_dispatch:
 concurrency:
   group: release
   cancel-in-progress: false
@@ -29,18 +30,20 @@ jobs:
         id: check-version
         uses: tsilva/.github/.github/actions/check-version@main
       - name: Setup uv
-        if: steps.check-version.outputs.tag_exists == 'false'
+        if: github.event_name == 'workflow_dispatch' || steps.check-version.outputs.tag_exists == 'false'
         uses: astral-sh/setup-uv@v4
         with:
           cache: true
       - name: Build package
-        if: steps.check-version.outputs.tag_exists == 'false'
+        if: github.event_name == 'workflow_dispatch' || steps.check-version.outputs.tag_exists == 'false'
         run: uv build
+      - name: Publish to PyPI
+        if: github.event_name == 'workflow_dispatch' || steps.check-version.outputs.tag_exists == 'false'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
       - name: Create GitHub release
         if: steps.check-version.outputs.tag_exists == 'false'
         run: gh release create "${{ steps.check-version.outputs.tag }}" --title "${{ steps.check-version.outputs.tag }}" --generate-notes dist/*
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish to PyPI
-        if: steps.check-version.outputs.tag_exists == 'false'
-        uses: pypa/gh-action-pypi-publish@release/v1

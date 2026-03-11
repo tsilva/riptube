@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="logo.png" alt="youdown" width="512"/>
+  <img src="logo.png" alt="riptube" width="512"/>
 
-  # youdown
+  # riptube
 
   [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -14,7 +14,7 @@
 
 ## Overview
 
-[![CI](https://github.com/tsilva/youdown/actions/workflows/release.yml/badge.svg)](https://github.com/tsilva/youdown/actions/workflows/release.yml)
+[![CI](https://github.com/tsilva/riptube/actions/workflows/release.yml/badge.svg)](https://github.com/tsilva/riptube/actions/workflows/release.yml)
 
 A CLI tool for downloading YouTube videos and extracting audio tracks. Built on top of yt-dlp, it handles the complexities of video downloading with automatic format selection, audio extraction, and cookie support for restricted content.
 
@@ -28,7 +28,7 @@ A CLI tool for downloading YouTube videos and extracting audio tracks. Built on 
 ## Installation
 
 ```bash
-pipx install youdown-cli
+pipx install riptube-cli
 ```
 
 ### Development install with uv
@@ -37,7 +37,7 @@ pipx install youdown-cli
 uv tool install . --editable
 ```
 
-The package is published on PyPI as `youdown-cli`, but the installed command is still `youdown`.
+The package is published on PyPI as `riptube-cli`, but the installed command is still `riptube`.
 
 ### Dependencies
 
@@ -64,25 +64,25 @@ Download FFmpeg from [ffmpeg.org](https://ffmpeg.org/download.html)
 ### Download a video
 
 ```bash
-youdown https://www.youtube.com/watch?v=dQw4w9WgXcQ
+riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ
 ```
 
 ### Specify output file
 
 ```bash
-youdown https://www.youtube.com/watch?v=dQw4w9WgXcQ -o video.mp4
+riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ -o video.mp4
 ```
 
 ### Extract audio only
 
 ```bash
-youdown https://www.youtube.com/watch?v=dQw4w9WgXcQ -a
+riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ -a
 ```
 
 ### Use cookies for restricted videos
 
 ```bash
-youdown https://www.youtube.com/watch?v=dQw4w9WgXcQ -c cookies.txt
+riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ -c cookies.txt
 ```
 
 ## Options
@@ -97,16 +97,20 @@ youdown https://www.youtube.com/watch?v=dQw4w9WgXcQ -c cookies.txt
 
 ```bash
 # Clone and install in development mode
-git clone https://github.com/tsilva/youdown.git
-cd youdown
+git clone https://github.com/tsilva/riptube.git
+cd riptube
 uv tool install . --editable
 
 # Or install with pipx
 pipx install . --force
 
 # Run directly without installing
-python -m youdown.cli <url>
+python -m riptube.cli <url>
 ```
+
+## Releases
+
+Bumping the version in `pyproject.toml` on `main` triggers the release workflow, which builds the package, publishes it to PyPI, and then creates the matching GitHub release. The workflow can also be re-run manually from GitHub via `workflow_dispatch`.
 
 ## License
 

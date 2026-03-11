@@ -399,6 +399,19 @@ wheels = [
 ]
 
 [[package]]
+name = "riptube-cli"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "yt-dlp", version = "2024.10.22", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "yt-dlp", version = "2025.10.14", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
+    { name = "yt-dlp", version = "2026.3.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "yt-dlp", specifier = ">=2023.0.0" }]
+
+[[package]]
 name = "urllib3"
 version = "2.2.3"
 source = { registry = "https://pypi.org/simple" }
@@ -499,19 +512,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/f6/c5/12c6859a2eaa8c53f59a647617a27f1835a226cd7106c601067c53251d98/websockets-13.1-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:95858ca14a9f6fa8413d29e0a585b31b278388aa775b8a81fa24830123874678", size = 159187, upload-time = "2024-09-21T17:34:18.538Z" },
     { url = "https://files.pythonhosted.org/packages/56/27/96a5cd2626d11c8280656c6c71d8ab50fe006490ef9971ccd154e0c42cd2/websockets-13.1-py3-none-any.whl", hash = "sha256:a9a396a6ad26130cdae92ae10c36af09d9bfe6cafe69670fd3b6da9b07b4044f", size = 152134, upload-time = "2024-09-21T17:34:19.904Z" },
 ]
-
-[[package]]
-name = "youdown-cli"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "yt-dlp", version = "2024.10.22", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
-    { name = "yt-dlp", version = "2025.10.14", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
-    { name = "yt-dlp", version = "2026.3.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "yt-dlp", specifier = ">=2023.0.0" }]
 
 [[package]]
 name = "yt-dlp"

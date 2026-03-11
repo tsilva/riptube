@@ -3,7 +3,7 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "youdown-cli"
+name = "riptube-cli"
 version = "0.1.0"
 description = "YouTube video downloader with best quality"
 authors = [
@@ -24,14 +24,14 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/tsilva/youdown"
-"Bug Tracker" = "https://github.com/tsilva/youdown/issues"
+"Homepage" = "https://github.com/tsilva/riptube"
+"Bug Tracker" = "https://github.com/tsilva/riptube/issues"
 
 [project.scripts]
-youdown = "youdown.cli:main"
+riptube = "riptube.cli:main"
 
 [tool.setuptools]
-packages = ["youdown"]
+packages = ["riptube"]
 
 [tool.pipx]
 install-deps = true

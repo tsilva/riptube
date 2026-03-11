@@ -15,12 +15,12 @@ pipx install . --force
 
 ### Run directly (development)
 ```bash
-python -m youdown.cli <url>
+python -m riptube.cli <url>
 ```
 
 ### After installation
 ```bash
-youdown <url> [-o output.mp4] [-a] [-c cookies.txt]
+riptube <url> [-o output.mp4] [-a] [-c cookies.txt]
 ```
 
 ## Architecture
