@@ -22,6 +22,7 @@ A CLI tool for downloading YouTube videos and playlists and extracting audio tra
 
 - **Best quality by default** - Automatically selects the highest available video and audio quality
 - **Playlist support** - Pass a playlist URL and download the full playlist automatically
+- **Fast playlist resume** - Skip playlist entries that are already present in the destination folder
 - **Audio extraction** - Extract audio tracks as MP3 files with a single flag
 - **Cookie support** - Access age-restricted or private videos using browser cookies
 - **Clean filenames** - Automatic sanitization of video titles for safe file names
@@ -87,6 +88,8 @@ riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ
 ```bash
 riptube https://www.youtube.com/playlist?list=PLxxxxxxxxxxxxxxxx
 ```
+
+If you rerun the same playlist in the same folder, `riptube` will skip videos whose IDs are already present in local filenames.
 
 ### Specify output file
 
