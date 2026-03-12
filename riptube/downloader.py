@@ -8,8 +8,10 @@ import sys
 from urllib.parse import parse_qs, urlparse
 
 import yt_dlp
+from yt_dlp.utils import SameFileError
 
 DEFAULT_OUTTMPL = '%(id)s - %(title)s.%(ext)s'
+PLAYLIST_PROGRESS_BAR_WIDTH = 30
 VIDEO_ID_PREFIX_RE = re.compile(r'^([A-Za-z0-9_-]{11}) - ')
 VIDEO_ID_SUFFIX_RE = re.compile(r'\[([A-Za-z0-9_-]{11})\](?:\.[^.]+)?$')
 
@@ -119,15 +121,18 @@ def get_missing_playlist_urls(url, cookies_file, existing_ids):
         'skipped_count': skipped_count,
     }
 
+
 def check_python_version():
     if sys.version_info < (3, 9):
         print("Warning: Python 3.8 is deprecated. Please use Python 3.9 or higher.")
+
 
 def check_dependencies():
     if not shutil.which('ffmpeg'):
         print("Warning: FFmpeg not found. Install with:")
         print("  sudo apt install ffmpeg")
     # aria2c is optional, not needed for yt-dlp to work basically
+
 
 def cleanup_part_files(directory="."):
     part_files = glob.glob(os.path.join(directory, "*.part"))
@@ -137,6 +142,30 @@ def cleanup_part_files(directory="."):
             print(f"Removed leftover part file: {os.path.basename(part_file)}")
         except Exception as e:
             print(f"Could not remove {part_file}: {e}")
+
+
+def validate_output_template(output_template, url_count):
+    """Match yt-dlp's same-file protection for multi-item downloads."""
+    if url_count > 1 and output_template != "-" and "%" not in output_template:
+        raise SameFileError(output_template)
+
+
+def format_playlist_progress(completed_count, total_count):
+    """Return a human-readable playlist progress bar."""
+    if total_count <= 0:
+        return f"[{'-' * PLAYLIST_PROGRESS_BAR_WIDTH}] 0/0 (0%)"
+
+    completed_count = min(max(completed_count, 0), total_count)
+    progress_ratio = completed_count / total_count
+    filled_width = int(progress_ratio * PLAYLIST_PROGRESS_BAR_WIDTH)
+    bar = "#" * filled_width + "-" * (PLAYLIST_PROGRESS_BAR_WIDTH - filled_width)
+    return f"[{bar}] {completed_count}/{total_count} ({progress_ratio:.0%})"
+
+
+def print_playlist_progress(completed_count, total_count):
+    """Print playlist progress on its own line."""
+    print(f"Playlist progress {format_playlist_progress(completed_count, total_count)}")
+
 
 def download_video(url, cookies_file=None, output=None, audio_only=False):
     """
@@ -189,6 +218,7 @@ def download_video(url, cookies_file=None, output=None, audio_only=False):
 
     try:
         download_urls = [url]
+        playlist_info = None
 
         if looks_like_playlist_url(url):
             existing_ids = collect_existing_video_ids(output_directory)
@@ -219,13 +249,29 @@ def download_video(url, cookies_file=None, output=None, audio_only=False):
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             print(f"Downloading: {url}")
-            ydl.download(download_urls)
+
+            if playlist_info:
+                total_count = playlist_info['total_count']
+                skipped_count = playlist_info['skipped_count']
+                validate_output_template(output_template, len(download_urls))
+                print_playlist_progress(skipped_count, total_count)
+
+                for completed_count, download_url in enumerate(
+                    download_urls,
+                    start=skipped_count + 1,
+                ):
+                    ydl.download([download_url])
+                    print_playlist_progress(completed_count, total_count)
+            else:
+                ydl.download(download_urls)
+
             return True
     except Exception as e:
         print(f"Download failed: {e}")
         return False
     finally:
         cleanup_part_files(output_directory)
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
