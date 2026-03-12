@@ -6,8 +6,10 @@ from .downloader import download_video
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Download YouTube videos with best quality")
-    parser.add_argument("url", help="YouTube video URL to download")
+    parser = argparse.ArgumentParser(
+        description="Download a YouTube video or playlist with best quality"
+    )
+    parser.add_argument("url", help="YouTube video or playlist URL to download")
     parser.add_argument(
         "-c",
         "--cookies",
@@ -18,7 +20,7 @@ def main():
     parser.add_argument(
         "-o",
         "--output",
-        help="Output file path (default: auto-generated from video title)",
+        help="Output file path (default: auto-generated as video-id - title)",
         default=None,
     )
     parser.add_argument(

@@ -7,7 +7,7 @@
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
   [![yt-dlp](https://img.shields.io/badge/Powered%20by-yt--dlp-red.svg)](https://github.com/yt-dlp/yt-dlp)
 
-  **📺 Download YouTube videos and extract audio with one command 🎵**
+  **📺 Download YouTube videos or playlists and extract audio with one command 🎵**
 
   [Installation](#installation) · [Usage](#usage) · [Options](#options)
 </div>
@@ -16,11 +16,12 @@
 
 [![CI](https://github.com/tsilva/riptube/actions/workflows/release.yml/badge.svg)](https://github.com/tsilva/riptube/actions/workflows/release.yml)
 
-A CLI tool for downloading YouTube videos and extracting audio tracks. Built on top of yt-dlp, it handles the complexities of video downloading with automatic format selection, audio extraction, and cookie support for restricted content.
+A CLI tool for downloading YouTube videos and playlists and extracting audio tracks. Built on top of yt-dlp, it handles the complexities of video downloading with automatic format selection, playlist handling, audio extraction, and cookie support for restricted content.
 
 ## Features
 
 - **Best quality by default** - Automatically selects the highest available video and audio quality
+- **Playlist support** - Pass a playlist URL and download the full playlist automatically
 - **Audio extraction** - Extract audio tracks as MP3 files with a single flag
 - **Cookie support** - Access age-restricted or private videos using browser cookies
 - **Clean filenames** - Automatic sanitization of video titles for safe file names
@@ -81,6 +82,12 @@ Download FFmpeg from [ffmpeg.org](https://ffmpeg.org/download.html)
 riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ
 ```
 
+### Download a playlist
+
+```bash
+riptube https://www.youtube.com/playlist?list=PLxxxxxxxxxxxxxxxx
+```
+
 ### Specify output file
 
 ```bash
@@ -103,7 +110,7 @@ riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ -c cookies.txt
 
 | Option | Description |
 |--------|-------------|
-| `-o, --output` | Output file path (default: auto-generated from video title) |
+| `-o, --output` | Output file path or yt-dlp output template (default: auto-generated as `video-id - title`) |
 | `-a, --audio` | Extract audio track as MP3 |
 | `-c, --cookies` | Path to Netscape format cookies.txt file |
 

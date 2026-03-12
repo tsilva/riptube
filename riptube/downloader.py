@@ -36,10 +36,10 @@ def cleanup_part_files(directory="."):
 
 def download_video(url, cookies_file=None, output=None, audio_only=False):
     """
-    Download a video from YouTube with given parameters.
+    Download a YouTube video or playlist with given parameters.
     
     Args:
-        url (str): YouTube video URL
+        url (str): YouTube video or playlist URL
         cookies_file (str, optional): Path to a Netscape format cookies.txt file
         output (str, optional): Output file path template
         audio_only (bool, optional): Extract audio as MP3
@@ -56,6 +56,7 @@ def download_video(url, cookies_file=None, output=None, audio_only=False):
     ydl_opts = {
         'format': 'bestaudio/best' if audio_only else 'bestvideo+bestaudio/best',
         'merge_output_format': 'mkv',  # yt-dlp merges to mkv by default
+        'noplaylist': False,
         'quiet': False,
         'no_warnings': False,
         'verbose': True,
@@ -65,7 +66,7 @@ def download_video(url, cookies_file=None, output=None, audio_only=False):
     if output:
         ydl_opts['outtmpl'] = output
     else:
-        ydl_opts['outtmpl'] = '%(title)s [%(id)s].%(ext)s'
+        ydl_opts['outtmpl'] = '%(id)s - %(title)s.%(ext)s'
     
     # Add cookies file if specified
     if cookies_file:
