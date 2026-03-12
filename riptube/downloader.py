@@ -5,6 +5,7 @@ import os
 import re
 import shutil
 import sys
+from urllib.parse import parse_qs, urlparse
 
 import yt_dlp
 
@@ -51,6 +52,15 @@ def collect_existing_video_ids(directory):
 
 def looks_like_playlist_url(url):
     return "/playlist" in url or "list=" in url
+
+
+def get_playlist_metadata_url(url):
+    """Normalize watch URLs with a list parameter into a playlist URL."""
+    parsed = urlparse(url)
+    playlist_id = parse_qs(parsed.query).get("list", [None])[0]
+    if not playlist_id:
+        return None
+    return f"https://www.youtube.com/playlist?list={playlist_id}"
 
 
 def get_entry_url(entry):
@@ -182,7 +192,12 @@ def download_video(url, cookies_file=None, output=None, audio_only=False):
 
         if looks_like_playlist_url(url):
             existing_ids = collect_existing_video_ids(output_directory)
-            playlist_info = get_missing_playlist_urls(url, cookies_file, existing_ids)
+            playlist_metadata_url = get_playlist_metadata_url(url) or url
+            playlist_info = get_missing_playlist_urls(
+                playlist_metadata_url,
+                cookies_file,
+                existing_ids,
+            )
 
             if playlist_info:
                 skipped_count = playlist_info['skipped_count']
