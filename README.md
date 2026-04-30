@@ -1,150 +1,58 @@
 <div align="center">
-  <img src="logo.png" alt="riptube" width="512"/>
+  <img src="https://raw.githubusercontent.com/tsilva/riptube/main/logo.png" alt="riptube" width="512"/>
 
-  # riptube
-
-  [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
-  [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-  [![yt-dlp](https://img.shields.io/badge/Powered%20by-yt--dlp-red.svg)](https://github.com/yt-dlp/yt-dlp)
-
-  **📺 Download YouTube videos or playlists and extract audio with one command 🎵**
-
-  [Installation](#installation) · [Usage](#usage) · [Options](#options)
+  **📺 Download YouTube videos, playlists, and MP3 audio from one small CLI 🎵**
 </div>
 
-## Overview
+riptube is a Python command-line tool for downloading YouTube videos and playlists with yt-dlp. It picks the best available media by default, supports cookies for restricted videos, and can extract audio as MP3.
 
-[![CI](https://github.com/tsilva/riptube/actions/workflows/release.yml/badge.svg)](https://github.com/tsilva/riptube/actions/workflows/release.yml)
+Use it when you want a direct `riptube <url>` workflow without managing yt-dlp options each time.
 
-A CLI tool for downloading YouTube videos and playlists and extracting audio tracks. Built on top of yt-dlp, it handles the complexities of video downloading with automatic format selection, playlist handling, audio extraction, and cookie support for restricted content.
-
-## Features
-
-- **Best quality by default** - Automatically selects the highest available video and audio quality
-- **Playlist support** - Pass a playlist URL and download the full playlist automatically
-- **Fast playlist resume** - Skip playlist entries that are already present in the destination folder
-- **Playlist progress bar** - Show overall playlist completion, including already-skipped videos
-- **Audio extraction** - Extract audio tracks as MP3 files with a single flag
-- **Cookie support** - Access age-restricted or private videos using browser cookies
-- **Clean filenames** - Automatic sanitization of video titles for safe file names
-
-## Installation
+## Install
 
 ```bash
 pipx install riptube
 ```
 
-### Development install with uv
+Then run:
+
+```bash
+riptube "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+```
+
+For local development from the repo root:
 
 ```bash
 uv tool install . --editable
+python -m riptube.cli "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 ```
 
-The package is published on PyPI as `riptube`, and the installed command is `riptube`.
-
-If you want to use it as a Python package instead of the CLI:
+## Commands
 
 ```bash
-pip install riptube
+riptube <url>                         # download a video or playlist
+riptube <url> -o "video.mp4"          # set an output path or yt-dlp template
+riptube <url> -a                      # extract audio as MP3
+riptube <url> -c cookies.txt          # use Netscape-format cookies
+python -m riptube.cli <url>           # run directly during development
+make current-version                  # print the package version
+make release-patch                    # bump patch, lock, commit, and push
+make release-minor                    # bump minor, lock, commit, and push
+make release-major                    # bump major, lock, commit, and push
 ```
 
-```python
-import riptube
-from riptube import download_video
+## Notes
 
-print(riptube.__version__)
-download_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-```
+- FFmpeg is required for video/audio merging and MP3 extraction.
+- Python 3.9+ is recommended. Python 3.8 is still allowed by package metadata but prints a deprecation warning.
+- Playlist downloads skip files whose local names already include the matching YouTube video ID.
+- Playlist runs print an overall progress bar in addition to yt-dlp's current-file output.
+- `-o` accepts either a single output path or a yt-dlp output template. Multi-item downloads need a template so entries do not overwrite each other.
+- Cookie files must use Netscape `cookies.txt` format.
 
-### Dependencies
+## Architecture
 
-| Dependency | Required | Purpose |
-|------------|----------|---------|
-| FFmpeg | Yes | Video/audio processing and merging |
-| aria2 | No | Faster downloads (optional) |
-
-**macOS:**
-```bash
-brew install ffmpeg aria2
-```
-
-**Linux:**
-```bash
-sudo apt install ffmpeg aria2
-```
-
-**Windows:**
-Download FFmpeg from [ffmpeg.org](https://ffmpeg.org/download.html)
-
-## Usage
-
-### Download a video
-
-```bash
-riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ
-```
-
-### Download a playlist
-
-```bash
-riptube https://www.youtube.com/playlist?list=PLxxxxxxxxxxxxxxxx
-```
-
-If you rerun the same playlist in the same folder, `riptube` will skip videos whose IDs are already present in local filenames.
-When downloading a playlist, `riptube` also prints a playlist-level progress bar so you can track overall completion instead of only the current file.
-
-### Specify output file
-
-```bash
-riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ -o video.mp4
-```
-
-### Extract audio only
-
-```bash
-riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ -a
-```
-
-### Use cookies for restricted videos
-
-```bash
-riptube https://www.youtube.com/watch?v=dQw4w9WgXcQ -c cookies.txt
-```
-
-## Options
-
-| Option | Description |
-|--------|-------------|
-| `-o, --output` | Output file path or yt-dlp output template (default: auto-generated as `video-id - title`) |
-| `-a, --audio` | Extract audio track as MP3 |
-| `-c, --cookies` | Path to Netscape format cookies.txt file |
-
-## Development
-
-```bash
-# Clone and install in development mode
-git clone https://github.com/tsilva/riptube.git
-cd riptube
-uv tool install . --editable
-
-# Or install with pipx
-pipx install . --force
-
-# Run directly without installing
-python -m riptube.cli <url>
-```
-
-## Releases
-
-Use the Make targets to cut a release from a clean `main` branch:
-
-```bash
-make release-patch
-make release-minor
-make release-major
-```
-
-Each target bumps the version, refreshes `uv.lock`, commits the release change, and pushes to `main`. That push triggers the release workflow, which builds the package, publishes it to PyPI, and then creates the matching GitHub release. The workflow can also be re-run manually from GitHub via `workflow_dispatch`.
+![riptube architecture diagram](./architecture.png)
 
 ## License
 
