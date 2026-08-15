@@ -44,7 +44,7 @@ make release-major                    # bump major, lock, commit, and push
 ## Notes
 
 - FFmpeg is required for video/audio merging and MP3 extraction.
-- Python 3.9+ is recommended. Python 3.8 is still allowed by package metadata but prints a deprecation warning.
+- Python 3.10+ is required because supported yt-dlp releases no longer support older Python versions.
 - Playlist downloads skip files whose local names already include the matching YouTube video ID.
 - Playlist runs print an overall progress bar in addition to yt-dlp's current-file output.
 - `-o` accepts either a single output path or a yt-dlp output template. Multi-item downloads need a template so entries do not overwrite each other.
