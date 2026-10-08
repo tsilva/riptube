@@ -1,8 +1,10 @@
-<div align="center">
+<p align="center">
   <img src="https://raw.githubusercontent.com/tsilva/riptube/main/logo.png" alt="riptube" width="512"/>
-
-  **📺 Download YouTube videos, playlists, and MP3 audio from one small CLI 🎵**
-</div>
+  <br />
+  <!-- repo-tagline:start -->
+  <strong>📺 Download YouTube videos, playlists, and MP3 audio 🎵</strong>
+  <!-- repo-tagline:end -->
+</p>
 
 riptube is a Python command-line tool for downloading YouTube videos and playlists with yt-dlp. It picks the best available media by default, supports cookies for restricted videos, and can extract audio as MP3.
 
