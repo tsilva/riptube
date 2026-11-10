@@ -37,8 +37,8 @@ jobs:
       - name: Install frozen dependencies
         run: uv sync --frozen --all-groups
 
-      - name: Audit dependencies
-        run: uv run pip-audit --skip-editable
+      - name: Audit locked dependencies
+        run: uv audit --locked
 
       - name: Lint
         run: uv run ruff check .
